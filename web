@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가치 해커톤 | 한일 크로스보더 해커톤</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Noto+Sans+JP:wght@300;400;700;900&display=swap');
+
+  :root {
+    --bg: #06060F;
+    --surface: #0E0E1C;
+    --red: #FF3040;
+    --cyan: #00E5FF;
+    --white: #F5F5F5;
+    --muted: #555570;
+    --border: #1A1A2E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px 40px;
+    background: rgba(6,6,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; }
+  .logo span { color: var(--red); }
+
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+
+  /* LANG TOGGLE */
+  .lang-toggle {
+    display: flex;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .lang-btn {
+    background: none;
+    border: none;
+    color: var(--muted);
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+    letter-spacing: 0.5px;
+  }
+  .lang-btn.active {
+    background: var(--white);
+    color: var(--bg);
+  }
+  .lang-btn:hover:not(.active) { color: var(--white); }
+
+  .nav-cta {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.3px;
+  }
+  .nav-cta:hover { background: #e02030; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(255,48,64,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,229,255,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 3px; color: var(--red);
+    text-transform: uppercase; margin-bottom: 24px;
+  }
+
+  .hero-title {
+    font-size: clamp(42px, 7vw, 88px);
+    font-weight: 900; line-height: 1.0;
+    letter-spacing: -2px; margin-bottom: 16px; max-width: 900px;
+  }
+  .hero-title .x { color: var(--red); display: inline-block; padding: 0 12px; }
+  .hero-title .jp { color: var(--cyan); }
+
+  .hero-sub {
+    font-size: 17px; color: #9090A8;
+    margin-bottom: 48px; max-width: 540px; line-height: 1.8;
+  }
+  .hero-sub strong { color: var(--white); }
+
+  .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .btn-primary {
+    background: var(--red); color: #fff; border: none;
+    padding: 16px 36px; font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-primary:hover { background: #e02030; transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent; color: var(--white);
+    border: 1px solid var(--muted);
+    padding: 16px 36px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--white); }
+
+  /* STATS */
+  .stats {
+    display: flex; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border); margin: 0 40px;
+  }
+  .stat { flex: 1; padding: 40px 32px; border-right: 1px solid var(--border); }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-size: 42px; font-weight: 900;
+    letter-spacing: -1px; color: var(--white); line-height: 1; margin-bottom: 8px;
+  }
+  .stat-num span { color: var(--red); }
+  .stat-label { font-size: 13px; color: var(--muted); letter-spacing: 0.5px; }
+
+  /* SECTION */
+  section { padding: 100px 40px; max-width: 1100px; margin: 0 auto; }
+  .section-eyebrow {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    color: var(--cyan); text-transform: uppercase; margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: clamp(28px, 4vw, 44px); font-weight: 900;
+    letter-spacing: -1px; margin-bottom: 48px; line-height: 1.1;
+  }
+
+  /* STEPS */
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px; background: var(--border); border: 1px solid var(--border);
+  }
+  .step { background: var(--surface); padding: 36px 28px; }
+  .step-num { font-size: 11px; font-weight: 700; color: var(--red); letter-spacing: 2px; margin-bottom: 20px; }
+  .step-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; line-height: 1.3; }
+  .step-desc { font-size: 13px; color: #7070A0; line-height: 1.7; }
+
+  /* VALUE */
+  .value-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); }
+  .value-card { background: var(--surface); padding: 48px 40px; }
+  .value-tag {
+    display: inline-block; font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; padding: 4px 12px; margin-bottom: 24px;
+  }
+  .value-tag.company { background: rgba(255,48,64,0.15); color: var(--red); }
+  .value-tag.student { background: rgba(0,229,255,0.1); color: var(--cyan); }
+  .value-title { font-size: 22px; font-weight: 800; margin-bottom: 16px; line-height: 1.3; }
+  .value-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .value-list li {
+    font-size: 14px; color: #8888AA;
+    padding-left: 16px; position: relative; line-height: 1.6;
+  }
+  .value-list li::before { content: '→'; position: absolute; left: 0; color: var(--muted); }
+
+  /* TOOLS */
+  .tools-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border); border: 1px solid var(--border);
+  }
+  .tool-card { background: var(--surface); padding: 32px 28px; }
+  .tool-icon { font-size: 28px; margin-bottom: 16px; }
+  .tool-name { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .tool-desc { font-size: 13px; color: #7070A0; line-height: 1.6; }
+
+  /* CTA */
+  .cta-section {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 80px 60px; text-align: center;
+    margin: 0 40px 100px; position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(255,48,64,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--red); text-transform: uppercase; margin-bottom: 20px; }
+  .cta-title { font-size: clamp(28px, 4vw, 48px); font-weight: 900; letter-spacing: -1px; margin-bottom: 16px; line-height: 1.1; }
+  .cta-sub { font-size: 16px; color: #7070A0; margin-bottom: 40px; }
+  .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+  /* FORM */
+  .form-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(6,6,15,0.92); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .form-overlay.active { display: flex; }
+  .form-box {
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 48px; width: 100%; max-width: 480px; position: relative;
+  }
+  .form-close { position: absolute; top: 20px; right: 24px; background: none; border: none; color: var(--muted); font-size: 22px; cursor: pointer; }
+  .form-title { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .form-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+  .form-group { margin-bottom: 20px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; background: var(--bg); border: 1px solid var(--border);
+    color: var(--white); padding: 12px 16px; font-size: 14px; font-family: inherit; outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--red); }
+  .form-group select option { background: var(--bg); }
+  .form-group textarea { height: 80px; resize: none; }
+  .form-submit { width: 100%; background: var(--red); color: #fff; border: none; padding: 16px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+  .form-submit:hover { background: #e02030; }
+  .success-msg { display: none; text-align: center; padding: 20px 0; }
+  .success-msg .check { font-size: 48px; margin-bottom: 16px; }
+  .success-msg p { color: var(--muted); font-size: 14px; }
+
+  /* FOOTER */
+  footer { border-top: 1px solid var(--border); padding: 32px 40px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-size: 15px; font-weight: 900; }
+  .footer-logo span { color: var(--red); }
+  .footer-copy { font-size: 12px; color: var(--muted); }
+
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-right { gap: 10px; }
+    .lang-btn { padding: 6px 10px; font-size: 12px; }
+    .hero { padding: 100px 20px 60px; }
+    .stats { flex-direction: column; margin: 0 20px; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); padding: 28px 20px; }
+    section { padding: 60px 20px; }
+    .value-grid { grid-template-columns: 1fr; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .cta-section { padding: 48px 24px; margin: 0 20px 60px; }
+    footer { padding: 24px 20px; flex-direction: column; gap: 8px; text-align: center; }
+    .form-box { padding: 32px 24px; margin: 20px; }
+    .steps { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">가치<span>×</span>Hackathon</div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('ko')">KR</button>
+      <button class="lang-btn" onclick="setLang('ja')">JP</button>
+    </div>
+    <button class="nav-cta" onclick="openForm('company')" id="navCta">기업 문의</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow" data-ko="한일 크로스보더 해커톤 플랫폼" data-ja="日韓クロスボーダーハッカソンプラットフォーム"></div>
+  <h1 class="hero-title">
+    <span class="kr-text">한국</span><span class="ja-text" style="display:none">韓国</span><span class="x">×</span><span class="jp"><span class="kr-text">日本</span><span class="ja-text" style="display:none">日本</span></span><br>
+    <span data-ko="함께 풀면" data-ja="共に解けば"></span><br>
+    <span data-ko="달라진다" data-ja="変わる"></span>
+  </h1>
+  <p class="hero-sub" data-ko="한국과 일본의 대학생이 팀을 이뤄<br><strong>실제 기업의 문제를 해결</strong>하는<br>비대면 미니 해커톤 플랫폼" data-ja="韓国と日本の大学生がチームを組み<br><strong>実際の企業課題を解決</strong>する<br>リモート完結型ミニハッカソンプラットフォーム"></p>
+  <div class="hero-buttons">
+    <button class="btn-primary" onclick="openForm('company')" data-ko="기업으로 참여하기" data-ja="企業として参加する"></button>
+    <button class="btn-secondary" onclick="openForm('student')" data-ko="학생으로 지원하기" data-ja="学生として応募する"></button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat">
+    <div class="stat-num">48<span>h</span></div>
+    <div class="stat-label" data-ko="미니 해커톤 기간" data-ja="ハッカソン期間"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">1<span>:</span>1</div>
+    <div class="stat-label" data-ko="한국 : 일본 팀 구성" data-ja="韓国：日本 チーム構成"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">100<span>%</span></div>
+    <div class="stat-label" data-ko="비대면 원격 운영" data-ja="完全リモート運営"></div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">2<span data-ko="개국" data-ja="カ国"></span></div>
+    <div class="stat-label" data-ko="동시 운영 마켓" data-ja="同時展開マーケット"></div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-eyebrow">How it works</div>
+  <h2 class="section-title" data-ko="어떻게 진행되나요" data-ja="どのように進みますか"></h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">STEP 01</div>
+      <div class="step-title" data-ko="기업이 과제 제출" data-ja="企業が課題を提出"></div>
+      <div class="step-desc" data-ko="일본 진출 또는 한국 진출을 준비 중인 기업이 실제 비즈니스 문제를 과제로 제출합니다." data-ja="日本進出または韓国進出を準備中の企業が、実際のビジネス課題を提出します。"></div>
+    </div>
+    <div class="step">
+      <div class="step-num">STEP 02</div>
+      <div class="step-title" data-ko="한일 팀 자동 매칭" data-ja="日韓チームの自動マッチング"></div>
+      <div class="step-desc" data-ko="한국 대학생과 일본 대학생이 1:1 비율로 매칭되어 크로스보더 팀을 구성합니다." data-ja="韓国の大学生と日本の大学生が1:1でマッチングされ、クロスボーダーチームを結成します。"></div>
+    </div>
+    <div class="step">
+      <div class="step-num">STEP 03</div>
+      <div class="step-title" data-ko="48시간 해커톤" data-ja="48時間ハッカソン"></div>
+      <div class="step-desc" data-ko="Discord 기반으로 실시간 협업. DeepL 번역봇이 언어 장벽을 자동으로 해소합니다." data-ja="Discordベースでリアルタイム協業。DeepL翻訳ボットが言語の壁を自動解消します。"></div>
+    </div>
+    <div class="step">
+      <div class="step-num">STEP 04</div>
+      <div class="step-title" data-ko="솔루션 발표 & 피드백" data-ja="ソリューション発表 & フィードバック"></div>
+      <div class="step-desc" data-ko="기업 담당자에게 직접 발표. 우수팀에게는 수료증과 인턴십 기회를 제공합니다." data-ja="企業担当者に直接発表。優秀チームには修了証とインターンシップ機会を提供します。"></div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE PROPS -->
+<section style="padding-top:0">
+  <div class="section-eyebrow">Value</div>
+  <h2 class="section-title" data-ko="누구에게 필요한가요" data-ja="誰に必要ですか"></h2>
+  <div class="value-grid">
+    <div class="value-card">
+      <span class="value-tag company" data-ko="기업 FOR COMPANIES" data-ja="企業 FOR COMPANIES"></span>
+      <div class="value-title" data-ko="저비용으로<br>양국 Z세대 인사이트를" data-ja="低コストで<br>両国Z世代のインサイトを"></div>
+      <ul class="value-list">
+        <li data-ko="일본/한국 현지 감각을 가진 팀의 날것의 아이디어" data-ja="日本・韓国の現地感覚を持つチームのリアルなアイデア"></li>
+        <li data-ko="에이전시 비용 대비 90% 절감" data-ja="エージェンシー費用比90%削減"></li>
+        <li data-ko="글로벌 진출 전 시장 검증 기회" data-ja="グローバル進出前の市場検証機会"></li>
+        <li data-ko="우수 인재 사전 발굴 채널" data-ja="優秀人材の早期発掘チャネル"></li>
+      </ul>
+    </div>
+    <div class="value-card">
+      <span class="value-tag student" data-ko="학생 FOR STUDENTS" data-ja="学生 FOR STUDENTS"></span>
+      <div class="value-title" data-ko="진짜 글로벌<br>협업 포트폴리오를" data-ja="本物のグローバル<br>協業ポートフォリオを"></div>
+      <ul class="value-list">
+        <li data-ko="실제 기업 문제를 해결하는 실무 경험" data-ja="実際の企業課題を解決する実務経験"></li>
+        <li data-ko="한국/일본 파트너와의 크로스보더 협업" data-ja="韓国・日本パートナーとのクロスボーダー協業"></li>
+        <li data-ko="기업 담당자 앞 직접 발표 기회" data-ja="企業担当者への直接プレゼン機会"></li>
+        <li data-ko="수료증 및 우수팀 인턴십 연계" data-ja="修了証および優秀チームのインターンシップ連携"></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section style="padding-top:0">
+  <div class="section-eyebrow">Infrastructure</div>
+  <h2 class="section-title" data-ko="운영 인프라" data-ja="運営インフラ"></h2>
+  <div class="tools-grid">
+    <div class="tool-card">
+      <div class="tool-icon">🎮</div>
+      <div class="tool-name">Discord</div>
+      <div class="tool-desc" data-ko="팀별 프라이빗 채널, 실시간 음성회의, 공지 시스템을 통합 운영" data-ja="チーム別プライベートチャンネル、リアルタイム音声会議、お知らせシステムを統合運営"></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">🌐</div>
+      <div class="tool-name">DeepL</div>
+      <div class="tool-desc" data-ko="한일 실시간 자동 번역으로 언어 장벽 제로. 자연스러운 협업 환경 보장" data-ja="日韓リアルタイム自動翻訳で言語の壁ゼロ。自然な協業環境を保証"></div>
+    </div>
+    <div class="tool-card">
+      <div class="tool-icon">⚡</div>
+      <div class="tool-name" data-ko="자동화 시스템" data-ja="自動化システム"></div>
+      <div class="tool-desc" data-ko="참가비 결제 확인 → 디스코드 권한 자동 부여. 운영 리소스 최소화" data-ja="参加費決済確認 → Discord権限自動付与。運営リソースを最小化"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-label">Join us</div>
+  <h2 class="cta-title" data-ko="첫 번째 해커톤에<br>함께하세요" data-ja="第1回ハッカソンに<br>参加しましょう"></h2>
+  <p class="cta-sub" data-ko="기업 스폰서 또는 학생 참가자로 사전 등록하세요" data-ja="企業スポンサーまたは学生参加者として事前登録してください"></p>
+  <div class="cta-buttons">
+    <button class="btn-primary" onclick="openForm('company')" data-ko="🏢 기업으로 참여" data-ja="🏢 企業として参加"></button>
+    <button class="btn-secondary" onclick="openForm('student')" data-ko="🎓 학생으로 지원" data-ja="🎓 学生として応募"></button>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">가치<span>×</span>Hackathon</div>
+  <div class="footer-copy">© 2026 Gachi Team · Korea × Japan</div>
+</footer>
+
+<!-- FORM MODAL -->
+<div class="form-overlay" id="formOverlay" onclick="handleOverlayClick(event)">
+  <div class="form-box">
+    <button class="form-close" onclick="closeForm()">✕</button>
+    <div id="formContent">
+      <div class="form-title" id="formTitle"></div>
+      <div class="form-sub" id="formSub"></div>
+      <div class="form-group">
+        <label data-ko="이름" data-ja="お名前"></label>
+        <input type="text" id="inputName">
+      </div>
+      <div class="form-group">
+        <label data-ko="이메일" data-ja="メールアドレス"></label>
+        <input type="email" id="inputEmail">
+      </div>
+      <div class="form-group">
+        <label data-ko="소속" data-ja="所属"></label>
+        <input type="text" id="inputOrg">
+      </div>
+      <div class="form-group">
+        <label data-ko="참여 유형" data-ja="参加タイプ"></label>
+        <select id="inputType">
+          <option value="" data-ko="선택해주세요" data-ja="選択してください"></option>
+          <option value="sponsor" data-ko="기업 스폰서 (과제 제출)" data-ja="企業スポンサー（課題提出）"></option>
+          <option value="student-kr" data-ko="학생 참가자 (한국)" data-ja="学生参加者（韓国）"></option>
+          <option value="student-jp" data-ko="학생 참가자 (일본)" data-ja="学生参加者（日本）"></option>
+          <option value="other" data-ko="기타 문의" data-ja="その他のお問い合わせ"></option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label data-ko="한마디" data-ja="メッセージ"></label>
+        <textarea id="inputMsg"></textarea>
+      </div>
+      <button class="form-submit" onclick="submitForm()" data-ko="사전 등록하기 →" data-ja="事前登録する →"></button>
+    </div>
+    <div class="success-msg" id="successMsg">
+      <div class="check">✅</div>
+      <h3 style="font-size:20px;font-weight:800;margin-bottom:12px" data-ko="등록 완료!" data-ja="登録完了！"></h3>
+      <p data-ko="빠른 시일 내에 연락드리겠습니다. 감사합니다 🙏" data-ja="近日中にご連絡いたします。ありがとうございます 🙏"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+  let currentLang = 'ko';
+  let currentFormType = 'company';
+
+  const i18n = {
+    navCta:       { ko: '기업 문의',    ja: '企業お問い合わせ' },
+    formTitleCo:  { ko: '기업 문의',    ja: '企業お問い合わせ' },
+    formSubCo:    { ko: '첫 번째 해커톤 스폰서 기업을 모집 중입니다', ja: '第1回ハッカソンのスポンサー企業を募集中です' },
+    formTitleSt:  { ko: '학생 참가 신청', ja: '学生参加申込み' },
+    formSubSt:    { ko: '한일 크로스보더 해커톤에 지원하세요', ja: '日韓クロスボーダーハッカソンに応募してください' },
+    inputNamePh:  { ko: '홍길동',       ja: '山田太郎' },
+    inputEmailPh: { ko: 'example@company.com', ja: 'example@company.co.jp' },
+    inputOrgPh:   { ko: '회사명 또는 대학교명', ja: '会社名または大学名' },
+    inputMsgPh:   { ko: '궁금한 점이나 참여 동기를 간단히 적어주세요', ja: 'ご質問や参加動機を簡単にお書きください' },
+    successTitle: { ko: '등록 완료!',   ja: '登録完了！' },
+  };
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.documentElement.lang = lang;
+
+    // lang buttons
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.trim() === (lang === 'ko' ? 'KR' : 'JP'));
+    });
+
+    // data-ko / data-ja elements
+    document.querySelectorAll('[data-ko]').forEach(el => {
+      const val = el.getAttribute('data-' + lang);
+      if (!val) return;
+      if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+        el.placeholder = val;
+      } else if (el.tagName === 'OPTION') {
+        el.textContent = val;
+      } else {
+        el.innerHTML = val;
+      }
+    });
+
+    // nav cta
+    document.getElementById('navCta').textContent = i18n.navCta[lang];
+
+    // form if open
+    updateFormLang();
+  }
+
+  function updateFormLang() {
+    const lang = currentLang;
+    const isCompany = currentFormType === 'company';
+    const title = isCompany ? i18n.formTitleCo[lang] : i18n.formTitleSt[lang];
+    const sub   = isCompany ? i18n.formSubCo[lang]   : i18n.formSubSt[lang];
+    document.getElementById('formTitle').textContent = title;
+    document.getElementById('formSub').textContent   = sub;
+    document.getElementById('inputName').placeholder  = i18n.inputNamePh[lang];
+    document.getElementById('inputEmail').placeholder = i18n.inputEmailPh[lang];
+    document.getElementById('inputOrg').placeholder   = i18n.inputOrgPh[lang];
+    document.getElementById('inputMsg').placeholder   = i18n.inputMsgPh[lang];
+
+    const successTitle = document.querySelector('#successMsg h3');
+    if (successTitle) successTitle.textContent = i18n.successTitle[lang];
+
+    // options
+    document.querySelectorAll('#inputType option').forEach(opt => {
+      const val = opt.getAttribute('data-' + lang);
+      if (val) opt.textContent = val;
+    });
+  }
+
+  function openForm(type) {
+    currentFormType = type;
+    document.getElementById('formOverlay').classList.add('active');
+    document.getElementById('formContent').style.display = 'block';
+    document.getElementById('successMsg').style.display  = 'none';
+    updateFormLang();
+    if (type === 'student') {
+      document.getElementById('inputType').value = 'student-kr';
+    } else {
+      document.getElementById('inputType').value = 'sponsor';
+    }
+  }
+
+  function closeForm() {
+    document.getElementById('formOverlay').classList.remove('active');
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('formOverlay')) closeForm();
+  }
+
+  function submitForm() {
+    const name  = document.getElementById('inputName').value;
+    const email = document.getElementById('inputEmail').value;
+    if (!name || !email) {
+      alert(currentLang === 'ko' ? '이름과 이메일을 입력해주세요' : 'お名前とメールアドレスを入力してください');
+      return;
+    }
+    document.getElementById('formContent').style.display = 'none';
+    document.getElementById('successMsg').style.display  = 'block';
+  }
+
+  // init
+  setLang('ko');
+</script>
+</body>
+</html>
